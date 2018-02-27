@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.morpheus.lectorcodigo.Resources.Permisos;
 
 public class MainActivity extends AppCompatActivity
 {
+
+    private static final int OK = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,8 +30,21 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 Intent intent = new Intent(MainActivity.this, Lector.class);
-                startActivity(intent);
+                startActivityForResult(intent, OK);
             }
         });
+
+
+    }
+
+    //El resultado cuando termina la actividad de lectura
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == RESULT_OK)
+        {
+            String codigo = data.getStringExtra("CODIGO");
+            Toast.makeText(this, codigo, Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.morpheus.lectorcodigo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,9 +40,16 @@ public class Lector extends Activity implements ZBarScannerView.ResultHandler
     @Override
     public void handleResult(Result result)
     {
-        Log.i("resultado", result.getContents());
+        String codigo = result.getContents();
+        Log.i("resultado", codigo);
         Log.i("tipo", result.getBarcodeFormat().getName());
 
         scannerView.resumeCameraPreview(this);
+
+        //Agrega el codigo al intent para seguir con el proceso
+        Intent intent = getIntent();
+        intent.putExtra("CODIGO", codigo);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
